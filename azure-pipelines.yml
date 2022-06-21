@@ -6,6 +6,11 @@
 trigger:
 - main
 
+variables:
+- group: test-group
+- name: test-variable
+  value: $[variables.one] # uses runtime expression
+
 strategy:
   matrix:
     linux:
@@ -20,6 +25,8 @@ pool:
   vmImage: $(imageName)
 
 steps:
+- script: echo $(one) # uses macro syntax
+- script: echo $(test-variable) # uses macro syntax
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
